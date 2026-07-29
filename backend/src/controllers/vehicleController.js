@@ -144,6 +144,58 @@ exports.searchVehicles = async (req, res, next) => {
 
 };
 
-exports.purchaseVehicle = async (req, res) => { };
+exports.purchaseVehicle = async (req, res, next) => {
 
-exports.restockVehicle = async (req, res) => { };
+    try {
+
+        const vehicle = await vehicleService.purchaseVehicle(req.params.id);
+
+        res.json({
+
+            success: true,
+
+            message: "Vehicle Purchased Successfully",
+
+            data: vehicle
+
+        });
+
+    } catch (error) {
+
+        next(error);
+
+    }
+
+};
+
+exports.restockVehicle = async (req, res, next) => {
+
+    try {
+
+        const { quantity } = req.body;
+
+        const vehicle = await vehicleService.restockVehicle(
+
+            req.params.id,
+
+            quantity
+
+        );
+
+        res.json({
+
+            success: true,
+
+            message: "Vehicle Restocked Successfully",
+
+            data: vehicle
+
+        });
+
+    } catch (error) {
+
+        next(error);
+
+    }
+
+};

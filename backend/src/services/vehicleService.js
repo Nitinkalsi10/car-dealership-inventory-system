@@ -1,5 +1,11 @@
 const Vehicle = require("../models/Vehicle");
 
+const createError = (message, status) => {
+    const error = new Error(message);
+    error.status = status;
+    return error;
+};
+
 exports.createVehicle = async (data) => {
     return await Vehicle.create(data);
 };
@@ -60,5 +66,42 @@ exports.searchVehicles = async (query) => {
     }
 
     return await Vehicle.find(filter);
+
+};
+
+exports.purchaseVehicle = async (id) => {
+
+    const vehicle = await Vehicle.findById(id);
+
+    if (!vehicle) {
+        throw createError("Vehicle not found", 404);
+    }
+
+    if (vehicle.quantity <= 0) {
+        throw createError("Vehicle Out of Stock", 400);
+    }
+
+    vehicle.quantity -= 1;
+
+    await vehicle.save();
+
+    return vehicle;
+};
+
+exports.restockVehicle = async (id, quantity) => {
+
+    const vehicle = await Vehicle.findById(id);
+
+    if (!vehicle) {
+
+        throw new Error("Vehicle not found");
+
+    }
+
+    vehicle.quantity += quantity;
+
+    await vehicle.save();
+
+    return vehicle;
 
 };

@@ -13,3 +13,13 @@ body("price").isNumeric(),
 body("quantity").isInt({min:0})
 
 ];
+
+exports.restockValidation = [
+
+    body("quantity")
+
+        .isInt({ min: 1 })
+
+        .withMessage("Quantity must be greater than zero")
+
+];
