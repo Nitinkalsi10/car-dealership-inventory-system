@@ -13,8 +13,13 @@ const MainLayout = ({ activePage, onNavigate, children }) => {
             try {
                 await api.get('/vehicles');
                 setIsConnected(true);
-            } catch {
-                setIsConnected(false);
+            } catch (err) {
+                // If status is 401 or response is received, backend server is online
+                if (err && (err.status || err.message !== 'Network Error')) {
+                    setIsConnected(true);
+                } else {
+                    setIsConnected(false);
+                }
             }
         };
         checkConnection();
