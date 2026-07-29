@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/layout/Sidebar';
 import Navbar from '../components/layout/Navbar';
+import Toast from '../components/common/Toast';
 import api from '../services/api';
 
 const MainLayout = ({ activePage, onNavigate, children }) => {
@@ -61,6 +62,9 @@ const MainLayout = ({ activePage, onNavigate, children }) => {
                     </div>
                 </footer>
             </div>
+
+            {/* Toast Notification Container */}
+            <Toast />
         </div>
     );
 };
